@@ -1,0 +1,100 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Barra Lateral -->
+    <aside class="sidebar">
+        <header>
+            <img src="{% static 'img/defaultlogo_small.png' %}" class="sidebar-img" alt="Seletos Lancamentos">
+        </header>
+        <ul class="siderbar-link-main">
+            <li><a href="/admin/" class="sidebar-link" target="_blank" rel="noreferrer noopener">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                <span class="sidebar-text">Página de Admin</span>
+            </a></li>
+            <li><a href="{% url 'webpage:webpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="sidebar-text">Página Principal</span>
+            </a></li>
+            <li><a href="{% url 'webpage:homepage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="help-buoy-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Entenda melhor</span>
+            </a></li>
+            <li><a href="{% url 'webpage:employeespage-view' %}" class="sidebar-link">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="people-outline"></ion-icon></span>
+                <span class="sidebar-text">Colaboradores</span>
+            </a></li>
+            <li><a href="{% url 'webpage:aboutpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="information-circle-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Sobre</span>
+            </a></li>
+        </ul>
+    </aside>
+
+    <!-- Botão de cada colaborador -->
+    <main>
+
+        <!--Texto descritivo -->
+        <article>
+            <h1 class="main-title">Colaboradores</h1>
+            <p class="main-description">
+                Logo abaixo estão sendo exibidos todos os colaboradores <strong>registrados no sistema</strong>, se não estiver vendo nada, significa que ninguém foi adicionado ainda!<br>
+                <strong>Caso tenha certeza</strong> de que quer adicionar alguém ao sistema, basta
+                <span><a href="/admin/webpage/funcionario/add/?_to_field=id" target="_blank" rel="noreferrer noopener">clicar aqui.</a></span>
+            </p>
+        </article>
+
+        <!-- Funcionários -->
+        {% for employee in employees %}
+        <div class="employee-content">
+            <a href="{% url 'webpage:employeeinfo-view' employee.pk %}" class="employee-box">
+                <p class="employee-firstname">
+                    <strong>{{employee.nome}}</strong>
+                </p>
+                <p class="employee-lastname">
+                    <strong>{{employee.sobrenome}}</strong>
+                </p>
+                <p class="employee-job">
+                    {{employee.cargo}}
+                </p>
+                <p class="employee-sex">
+                    {{employee.genero}}
+                </p>
+            </a>
+        </div>
+        {% endfor %}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if employees.has_previous %}
+                    <a href="?page={{ employees.previous_page_number }}"><i class="step-link-icon"><ion-icon name="chevron-back-outline"></ion-icon></i></a>
+                {% endif %}
+
+                <span class="current-page">
+                    Página {{ employees.number }} de {{ employees.paginator.num_pages }}
+                </span>
+
+                {% if employees.has_next %}
+                    <a href="?page={{ employees.next_page_number }}"><i class="step-link-icon"><ion-icon name="chevron-forward-outline"></ion-icon></i></a>
+                {% endif %}
+            </span>
+        </div>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Others -->
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+</body>
+</html>

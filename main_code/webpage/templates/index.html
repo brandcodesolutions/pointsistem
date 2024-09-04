@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+    
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="black-bg">
+    
+    <!-- Conteúdo da página -->
+    <main class="pres-main">
+        <content class="pres-content-div">
+            
+            <!-- Logo -->
+            <img class="pres-img" src="{% static 'img/defaultlogo.png' %}" alt="Seletos Lancamentos Logo">
+
+            <!-- Conteúdo -->
+            <div class="main-content-div">
+
+                <!-- Saudação -->
+                <h3 class="pres-title">
+                    <strong>Seja bem-vindo</strong> ao nosso<br>
+                    sistema de ponto!
+                </h3>
+                
+                <!-- Ponto eletrônico -->
+                <div class="ep-box">
+                    
+                    <form action="{% url 'webpage:register_time_employee' %}" method='post'>
+                        {% csrf_token %}
+
+                        <!-- Horário -->
+                        <span class="pres-input-span">
+                            <input type="time" id="horario" name="horario" min="5" max="5" placeholder="Digite um horário" class="pres-input" required>
+                        </span>
+
+                        <!-- Funcionário -->
+                        <select name="employees" id="employees">
+                            {% for employee in employees %}
+                            <option value="{{ employee.pk }}">{{ employee.nome }} {{ employee.sobrenome }}</option>
+                            {% endfor %}
+                        </select>
+
+                            <!-- Botões -->
+                        <div class="buttons-main-div">
+                            <p>Manhã</p>
+                            <span class="button-row">
+                                    <input type="submit" name="entrada-manha" value="Entrada">
+                                    <input type="submit" name="saida-manha" value="Saida">
+                            </span>
+                            <p>Tarde</p>
+                            <span class="button-row">
+                                    <input type="submit" name="entrada-tarde" value="Entrada">
+                                    <input type="submit" name="saida-tarde" value="Saída">
+                            </span>
+                        </div>
+                    </form>
+                    
+                    
+
+                    
+                </div>
+
+                <!-- Veja mais -->
+                <a href="{% url 'webpage:homepage-view' %}" class="pres-link">
+                    <span class="pres-text">Veja mais</span>
+                </a>
+            </div>
+        </content>
+    </main>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form'); // Seleciona o formulário
+    const empresaLat = -22.162563; // Latitude da empresa
+    const empresaLng = -51.425709; // Longitude da empresa
+    const radius = 0.01; // Raio de verificação em km
+
+    function toRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    function haversineDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371; // Raio da Terra em km
+        const dLat = toRadians(lat2 - lat1);
+        const dLng = toRadians(lng2 - lng1);
+        const a = Math.sin(dLat / 2) ** 2 +
+                  Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * 
+                  Math.sin(dLng / 2) ** 2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distância em km
+    }
+
+    function checkLocation(event) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const { latitude, longitude } = position.coords;
+                const distance = haversineDistance(latitude, longitude, empresaLat, empresaLng);
+
+                console.log('Latitude:', latitude);
+                console.log('Longitude:', longitude);
+                console.log('Distance:', distance);
+
+                if (distance > radius) {
+                    event.preventDefault(); // Previne o envio do formulário se não estiver dentro da área
+                    alert('Você precisa estar dentro da empresa para registrar o ponto.');
+                }
+                // Se estiver dentro do raio, o formulário será enviado normalmente
+            }, (error) => {
+                console.error('Erro ao obter a localização:', error);
+                alert('Não foi possível obter sua localização.');
+                event.preventDefault(); // Previne o envio do formulário em caso de erro de localização
+            });
+        } else {
+            alert('Geolocalização não é suportada pelo seu navegador.');
+            event.preventDefault(); // Previne o envio do formulário se geolocalização não for suportada
+        }
+    }
+
+    form.addEventListener('submit', checkLocation);
+});
+    </script>
+    
+    <!-- Others -->
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+</body>
+</html>

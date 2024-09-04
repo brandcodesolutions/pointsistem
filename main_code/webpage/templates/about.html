@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Barra Lateral -->
+    <aside class="sidebar">
+        <header>
+            <img src="{% static 'img/defaultlogo_small.png' %}" class="sidebar-img" alt="Seletos Lancamentos">
+        </header>
+        <ul class="siderbar-link-main">
+            <li><a href="/admin/" class="sidebar-link" target="_blank" rel="noreferrer noopener">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                <span class="sidebar-text">Página de Admin</span>
+            </a></li>
+            <li><a href="{% url 'webpage:webpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="sidebar-text">Página Principal</span>
+            </a></li>
+            <li><a href="{% url 'webpage:homepage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="help-buoy-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Entenda melhor</span>
+            </a></li>
+            <li><a href="{% url 'webpage:employeespage-view' %}" class="sidebar-link">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="people-outline"></ion-icon></span>
+                <span class="sidebar-text">Colaboradores</span>
+            </a></li>
+            <li><a href="{% url 'webpage:aboutpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="information-circle-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Sobre</span>
+            </a></li>
+        </ul>
+    </aside>
+
+    <!-- Conteúdo da página -->
+    <main>
+        <content>
+            <h1 class="main-title">Sobre o sistema</h1>
+            <p class="main-description">
+                Este projeto foi idealizado inicialmente como um projeto de estudo, e conforme foi se desenvolvendo achei uma boa ideia<br>disponibilizar para o público, apesar de ser algo simples e bruto, nunca sabemos quem pode estar precisando de algo do tipo!<br>
+                <br>
+                Caso queira tirar alguma dúvida sobre o sistema, basta entrar em contato com
+                <span><a href="https://github.com/Anthhon" target="_blank" rel="noreferrer noopener">Anthony Silva</a></span>
+                ou
+                <span><a href="https://github.com/Rip4568" target="_blank" rel="noreferrer noopener">Jonathas David.</a></span><br>
+                <br>
+                O sistema possui código aberto, então caso queira dar uma olhada e tirar alguma dúvida basta acessar
+                <span><a href="https://github.com/Anthhon/sistema-de-ponto" target="_blank" rel="noreferrer noopener">este link.</a></span>
+            </p>
+        </content>
+    </main>
+
+    <!-- Others -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+
+    <!-- Barra Lateral -->
+    <aside class="sidebar">
+        <header>
+            <img src="{% static 'img/defaultlogo_small.png' %}" class="sidebar-img" alt="Seletos Lancamentos">
+        </header>
+        <ul class="siderbar-link-main">
+            <li><a href="/admin/" class="sidebar-link" target="_blank" rel="noreferrer noopener">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                <span class="sidebar-text">Página de Admin</span>
+            </a></li>
+            <li><a href="{% url 'webpage:webpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="sidebar-text">Página Principal</span>
+            </a></li>
+            <li><a href="{% url 'webpage:homepage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="help-buoy-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Entenda melhor</span>
+            </a></li>
+            <li><a href="{% url 'webpage:employeespage-view' %}" class="sidebar-link">{% comment %}  {% endcomment %}
+                <span class="sidebar-icon"><ion-icon name="people-outline"></ion-icon></span>
+                <span class="sidebar-text">Colaboradores</span>
+            </a></li>
+            <li><a href="{% url 'webpage:aboutpage-view' %}" class="sidebar-link">
+                <span class="sidebar-icon"><ion-icon name="information-circle-outline"></ion-icon></ion-icon></span>
+                <span class="sidebar-text">Sobre</span>
+            </a></li>
+        </ul>
+    </aside>
+
+    <!-- Conteúdo da página -->
+    <main>
+        <content>
+
+            <!-- Descrição colaborador -->
+            <h1 class="main-title">Colaborador</h1>
+            <div class="desc-box">
+                <content class="desc-row">
+                    <p class="main-description">
+                        <strong>Nome:</strong> {{ employee_info.nome }}
+                    </p>
+                    <p class="main-description">
+                        <strong>Sobrenome:</strong> {{ employee_info.sobrenome }}
+                    </p>
+                    <p class="main-description">
+                        <strong>Cargo:</strong> {{ employee_info.cargo }}
+                    </p>
+                    <p class="main-description">
+                        <strong>Idade:</strong> {{ employee_info.idade }} anos
+                    </p>
+                    <p class="main-description">
+                        <strong>Genero:</strong> {{ employee_info.genero }}
+                    </p>
+                </content>
+                <content class="desc-row">
+                    <p class="main-description">
+                        <strong>Admissão:</strong> {{ employee_info.admissão }}
+                    </p>
+                    <p class="main-description">
+                        <strong>Aniversário:</strong> {{ employee_info.aniversário }}
+                    </p>
+                </content>
+                <content class="desc-row">
+                    <p class="main-description">
+                        <strong>Endereço:</strong> {{ employee_info.endereço }}
+                    </p>
+                </content>
+                <content class="desc-row">
+                    <p class="main-description">
+                        <strong>CPF:</strong> {{ employee_info.CPF }}
+                    </p>
+                </content>
+            </div>
+
+            <!-- Histórico de horários -->
+            <h1 class="main-title" id="main-title-historic"><ion-icon name="time-outline"></ion-icon>Histórico</h1>
+            <p class="carreer-time">Horas trabalhadas: {{horas_trabalhadas}}</p>
+            <div class="check-box">
+                {% for checkin in checkins %}
+                <content class="check-row">
+                    <p class="main-check">
+                        <ion-icon name="calendar-outline"></ion-icon> {{checkin.dia}}
+                    </p>
+                    <p class="main-check">
+                        <strong>Manhã:</strong> {{checkin.entrada_manha}} - {{checkin.saida_manha}}
+                    </p>
+                    <p class="main-check">
+                        <strong>Tarde:</strong> {{checkin.entrada_tarde}} - {{checkin.saida_tarde}}
+                    </p>
+                </content>
+                {% endfor %}
+            </div>
+        </content>
+
+        <!-- Rodapé  -->
+        <footer class="footer-buttons">
+            <span>
+                <a href="/admin/webpage/funcionario/{{ employee_info.id }}/change/?_to_field=id" class="footer-links" target="_blank" rel="noreferrer noopener">Editar informações</a>
+            </span>
+        </footer>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Others -->
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+</body>
+</html>
